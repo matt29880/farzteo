@@ -1,0 +1,14 @@
+<h2>Album Types</h2>
+<table class="listalbumtype" border="1">
+	<thead>
+		<th>Country</th>
+		<th>Name</th>
+	</thead>
+	<tbody>
+		<tr *ngFor="let albumtype of listalbumtype">
+				<td>{{albumtype.countryName}}</td>
+			<td><a href="#/editing/albumtypes/{{albumtype.id}}">{{albumtype.name}}</a></td>
+		</tr>
+	</tbody>
+</table>
+<a routerLink="/editing/albumtypes/new"><button class="btn btn-success pull-right" >Add new album type</button></a>

@@ -1,0 +1,28 @@
+<h2>File explorer</h2>
+<div id="overlay"></div>
+<div class="row" style="height: 600px;">
+	<div class="col-3 folders text-center" style="height: 100%;width:100%;overflow-x:auto;">
+		<h3>Files</h3>
+		<p>Path : {{currentPath}}</p>
+		<p *ngIf="previousPaths.length > 0" class="folder parent-folder">
+			<a (click)="goBack()">&larr; parent folder</a>
+		</p>
+		<p *ngFor="let file of directories()" class="folder">
+			<a (click)="openDirectory(file.path)"><img src="/assets/img/folder.png" width="28"/> {{file.name}}</a
+		></p>
+	</div>
+	<div class="col-9 files" style="height: 100%;overflow-x:auto;">
+		<div class="row text-center text-lg-left">
+			<div class="col-3 file" *ngFor="let file of photos()">
+				<img src="{{environment.siteUrl}}/images/{{file.path}}"
+					(click)="selectImage(file);"
+					class="rounded img-thumbnail cursor-pointer overlay" width="150" height="150"/>
+					<div class="middle">
+					  	<div class="text" (click)="selectImage(file);" style="width:40px;">
+						  <img src="/assets/img/add.png" width="1" height="1"/>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
