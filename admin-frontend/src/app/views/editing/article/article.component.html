@@ -1,0 +1,79 @@
+<form (ngSubmit)="onSubmit()" #f="ngForm">
+	<div>
+		<p>Created : {{article.created}}</p>
+		<p>Updated : {{article.updated}}</p>
+	</div>
+	
+	<div class="form-group row">
+		Online :
+		<label class="switch switch-success">
+           	<input type="checkbox" class="switch-input" [(ngModel)]="article.online" name="online" required="false">
+           	<span class="switch-slider"></span>
+         	</label>
+	</div>
+	<div class="form-group">
+		<label for="country" class="col-sm-2 col-form-label">Country:</label> 
+		<select id="country" [(ngModel)]="article.countryId" name="countryId" class="form-control" required>
+		   <option [value]="country.id" *ngFor="let country of countries">{{country.name}}</option>
+		 </select>
+	</div>
+	<div class="form-group">
+		<label>Name:</label> 
+		<input type="text" name="articleName" [(ngModel)]="article.name" class="form-control" required #name="ngModel"/>
+		<span class="help-block" *ngIf="!name.valid && name.touched">Please enter an article name !</span>
+	</div>
+	<div class="form-group row">
+		Thumbnail :
+		<button class="btn btn-secondary" type="button" (click)="openModalThumbnail(template)">Update thumbnail</button>
+
+		<p *ngIf="article.thumbnailId != null">
+			<img src="{{environment.siteUrl}}/images/{{article.thumbnailUrl}}" width="250" height="250">
+		</p>
+	</div>
+	<div class="form-group">
+		<label>Description:</label>
+		<div *ngFor="let articleDescription of descriptionItems; let index = index">
+			<div class="row">
+				<div class="col-sm-10">
+					<input *ngIf="articleDescription.type == 'title'" type="text"
+						name="descriptionTitle_{{index}}" [(ngModel)]="descriptionItems[index].content" class="form-control"
+						[attr.data-index]="index" placeholder="Here the new title !"/>
+					<textarea *ngIf="articleDescription.type == 'paragraph'" type="text"
+						name="descriptionParagraph_{{index}}" [(ngModel)]="descriptionItems[index].content" class="form-control"
+						[attr.data-index]="index">{{descriptionItems[index].content}}}</textarea>
+					<select *ngIf="articleDescription.type == 'album'"
+						name="descriptionAlbum_{{index}}" class="form-control"
+						[attr.data-index]="index" [(ngModel)]="descriptionItems[index].albumId">
+						<option *ngFor="let album of albums" [ngValue]="album.id">{{album.name}}</option>
+					</select>
+					<p *ngIf="articleDescription.type == 'photo'">
+						<img src="{{environment.siteUrl}}/images/{{articleDescription.url}}" width="250" height="250">
+					</p>
+				</div>
+				<div class="col-sm-2">
+					<button class="btn btn-secondary" type="button" (click)="moveDescriptionUp(index)" *ngIf="index != 0">&uarr;</button>
+					<button class="btn btn-secondary" type="button" (click)="moveDescriptionDown(index)" *ngIf="(index+1) < descriptionItems.length ">&darr;</button>
+					<button class="btn btn-secondary" type="button" (click)="removeDescriptionItem(index)">X</button>
+				</div>
+			</div>
+		</div>
+		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('title', template)">Add title</button>
+		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('paragraph', template)">Add paragraph</button>
+		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('album', template)">Add album</button>
+		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('photo', template)">Add photo</button>
+	</div>
+	<button class="btn btn-primary" type="submit" [disabled]="!form.valid">Save the article</button>
+	<button class="btn btn-danger" type="button" [disabled]="article.id==null" (click)="deleteArticle()">Delete the article</button>
+</form>
+
+<ng-template #template>
+	<div class="modal-header">
+	  <h4 class="modal-title pull-left">Modal</h4>
+	  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+		<farztev-explorer (selectedFiles)="setPhoto($event)"></farztev-explorer>
+	</div>
+  </ng-template>

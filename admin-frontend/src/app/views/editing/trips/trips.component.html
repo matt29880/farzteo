@@ -1,0 +1,18 @@
+<h2>Trips</h2>
+<table class="trips" border="1">
+	<thead>
+		<th>Name</th>
+		<th>Start</th>
+		<th>End</th>
+		<th>Online</th>
+	</thead>
+	<tbody>
+		<tr *ngFor="let trip of trips">
+			<td><a href="#/editing/trips/{{trip.id}}">{{trip.name}}</a></td>
+			<td>{{trip.start}}</td>
+			<td>{{trip.end}}</td>
+			<td>{{trip.online}}</td>
+		</tr>
+	</tbody>
+</table>
+<a routerLink="/editing/trips/new"><button class="btn btn-success pull-right" >Add new trip</button></a>

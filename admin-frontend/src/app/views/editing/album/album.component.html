@@ -1,0 +1,68 @@
+<h1>Albums</h1>
+
+<form (ngSubmit)="onSubmit()" #f="ngForm">
+	<div>
+		<p>Created : {{album.created}}</p>
+		<p>Updated : {{album.updated}}</p>
+	</div>
+	
+	<div class="form-group row">
+		Online :
+		<label class="switch switch-success">
+           	<input type="checkbox" class="switch-input" [(ngModel)]="album.online" name="online" required="false">
+           	<span class="switch-slider"></span>
+         	</label>
+	</div>
+	<div class="form-group row">
+		Thumbnail :
+		<button class="btn btn-secondary" type="button" (click)="openModalThumbnail(template)">Update thumbnail</button>
+
+		<p *ngIf="album.thumbnailId != null">
+			<img src="{{environment.siteUrl}}/images/{{album.thumbnailUrl}}" width="250" height="250">
+		</p>
+	</div>
+	<div class="form-group">
+		<label for="country" class="col-sm-2 col-form-label">Country:</label> 
+		<select id="country" [(ngModel)]="album.countryId" name="countryId" class="form-control" required>
+		   <option [value]="country.id" *ngFor="let country of countries">{{country.name}}</option>
+		 </select>
+	</div>
+	<div class="form-group">
+		<label>Name:</label> 
+		<input type="text" name="albumName" [(ngModel)]="album.name" class="form-control" required #name="ngModel"/>
+		<span class="help-block" *ngIf="!name.valid && name.touched">Please enter an album name !</span>
+	</div>
+	<div class="form-group">
+		<label>Description:</label>		
+    <textarea  type="text" name="description" [(ngModel)]="album.description" class="form-control">
+      {{album.description}}}
+    </textarea>
+	</div>
+	<button class="btn btn-primary" type="submit" [disabled]="!form.valid">Save the album</button>
+	<button class="btn btn-danger" type="button" [disabled]="album.id==null" (click)="deleteAlbum()">Delete the album</button>
+</form>
+
+<button type="button" class="btn btn-primary" (click)="openModalPhoto(template)">Add photos</button>
+<div class="album row text-center text-lg-left">
+  <div class="col-lg-3 col-md-4 col-6" *ngFor="let media of medias">
+				<img src="{{environment.siteUrl}}/images/{{media.url}}" width="250" height="250" 
+						(click)="unselect(media.id)" class="rounded img-thumbnail cursor-pointer" />
+    </div>
+</div>
+
+
+ 
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <div class="alert alert-danger p-1 {{alertState}}" role="alert">
+        This photo has been already added to the album!
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <farztev-explorer (selectedFiles)="addSelection($event)"></farztev-explorer>
+  </div>
+</ng-template>

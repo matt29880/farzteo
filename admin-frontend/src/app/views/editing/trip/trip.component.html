@@ -1,0 +1,86 @@
+<form (ngSubmit)="onSubmit()" #f="ngForm">	
+	<div class="form-group row">
+		Online :
+		<label class="switch switch-success">
+           	<input type="checkbox" class="switch-input" [(ngModel)]="trip.online" name="online" required="false">
+           	<span class="switch-slider"></span>
+         	</label>
+	</div>
+
+	<div class="form-group row">
+		Thumbnail :
+		<button class="btn btn-secondary" type="button" (click)="openModal(template)">Update thumbnail</button>
+
+		<p *ngIf="trip.thumbnailId != null">
+			<img src="{{environment.siteUrl}}/images/{{trip.thumbnailUrl}}" width="250" height="250">
+		</p>
+	</div>
+	<div class="form-group">
+		<label>Name:</label> 
+		<input type="text" name="tripName" [(ngModel)]="trip.name" class="form-control" required #name="ngModel"/>
+		<span class="help-block" *ngIf="!name.valid && name.touched">Please enter an trip name !</span>
+	</div>
+	<div class="form-group">
+		<label>Summary:</label> 
+		<input type="text" name="tripSummary" [(ngModel)]="trip.summary" class="form-control" #name="ngModel"/>
+	</div>
+	<div class="form-group">
+		<label>Start:</label> 
+		<input type="text" name="tripStart" [(ngModel)]="trip.start" class="form-control" #name="ngModel"/>
+	</div>
+	<div class="form-group">
+		<label>End:</label> 
+		<input type="text" name="tripEnd" [(ngModel)]="trip.end" class="form-control" #name="ngModel"/>
+	</div>
+	<button class="btn btn-primary" type="submit" [disabled]="!form.valid">Save the trip</button>
+	<button class="btn btn-danger" type="button" [disabled]="trip.id==null" (click)="deleteTrip()">Delete the trip</button>
+</form>
+
+<p>
+	Add Articles : 
+	<select [(ngModel)]="selectedArticle">
+		<option *ngFor="let article of availableArticles;" [ngValue]="article.id">
+			{{article.name}}
+		</option>
+	</select>
+	<button class="btn btn-secondary" type="button" (click)="addArticle(selectedArticle)">+</button>
+</p>
+<p>
+	Add albums :
+	<select [(ngModel)]="selectedAlbum">
+		<option *ngFor="let album of availableAlbums;" [ngValue]="album.id">
+			{{album.name}}
+		</option>
+	</select>
+	<button class="btn btn-secondary" type="button" (click)="addAlbum(selectedAlbum)">+</button>
+</p>
+
+<p>
+	Articles of the trip :
+</p>
+<ul>
+	<li *ngFor="let article of tripArticles;">
+				{{article.name}}
+	</li>
+</ul>
+
+<p>
+	Albums of the trip :
+</p>
+<ul>
+	<li *ngFor="let album of tripAlbums;">
+				{{album.name}}
+	</li>
+</ul>
+
+<ng-template #template>
+	<div class="modal-header">
+	  <h4 class="modal-title pull-left">Modal</h4>
+	  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+		<farztev-explorer (selectedFiles)="setPhoto($event)"></farztev-explorer>
+	</div>
+  </ng-template>

@@ -1,0 +1,14 @@
+<h2>Countries</h2>
+<table class="countrylist" border="1">
+	<thead>
+		<th>Name</th>
+		<th>Online</th>
+	</thead>
+	<tbody>
+		<tr *ngFor="let country of listcountry">
+			<td><a href="#/editing/countries/{{country.id}}">{{country.name}}</a></td>
+			<td>{{country.online}}</td>
+		</tr>
+	</tbody>
+</table>
+<a routerLink="/editing/countries/new"><button class="btn btn-success pull-right" >Add new country</button></a>

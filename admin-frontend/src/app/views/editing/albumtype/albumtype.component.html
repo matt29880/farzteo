@@ -1,0 +1,19 @@
+<form (ngSubmit)="onSubmit()" #f="ngForm">
+	<div class="form-group">
+		<label>Country:</label> 
+		<select class="form-control"
+			id="country"
+			[(ngModel)]="albumType.countryId"
+			name="country">
+			<option *ngFor="let country of countries" [ngValue]="country.id">{{country.name}}</option>
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label>Name:</label> 
+		<input type="text" name="albumTypeName" [(ngModel)]="albumType.name" class="form-control" required #albumTypeName="ngModel"/>
+		<span class="help-block" *ngIf="!albumTypeName.valid && albumTypeName.touched">Please enter an album type name !</span>
+	</div>
+	<button class="btn btn-primary" type="submit" [disabled]="!f.valid">Save the album type</button>
+	<button class="btn btn-danger" type="button" [disabled]="albumType.id==null" (click)="deleteAlbumType()">Delete the album type</button>
+</form>
