@@ -40,7 +40,7 @@ export class ArticleComponent implements OnInit {
   article: Article;
   descriptionItems: ArticleDescription[];
   countries: ListCountry[];
-  @ViewChild('f') form: NgForm;
+  @ViewChild('f', {static: true}) form: NgForm;
   albums: ListAlbum[] = [];
   modalType: string;
 

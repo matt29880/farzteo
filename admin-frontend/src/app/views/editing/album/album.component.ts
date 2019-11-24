@@ -42,11 +42,12 @@ export class AlbumComponent implements OnInit{
   countries: ListCountry[];
   modalType: MediaType;
 
-  @ViewChild('f') form: NgForm;
+  @ViewChild('f', {static: true}) form: NgForm;
 
   alertState : string = "hide";
 
   ngOnInit() {
+    this.medias = [];
     this.initializeEmptyAlbum();
     this.getCountries().subscribe(countries => {
       this.countries = countries;
