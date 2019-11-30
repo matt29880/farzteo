@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -59,6 +59,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ChartsModule,
     HttpClientModule,
     ModalModule.forRoot(),
+    CommonModule
   ],
   declarations: [
     AppComponent,

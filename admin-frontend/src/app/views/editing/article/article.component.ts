@@ -19,6 +19,8 @@ import { MediaType } from '../media/mediatype';
 import { MediaService } from '../media/media.service';
 import { ArticlePhoto } from './articlePhoto';
 import {environment} from '../../../../environments/environment';
+import { ArticleUnorderedList } from './articleUnorderedList';
+import { ArticleListItem } from './articleListItem';
 
 @Component({
   templateUrl: 'article.component.html',
@@ -40,7 +42,7 @@ export class ArticleComponent implements OnInit {
   article: Article;
   descriptionItems: ArticleDescription[];
   countries: ListCountry[];
-  @ViewChild('f') form: NgForm;
+  @ViewChild('f', {static: true}) form: NgForm;
   albums: ListAlbum[] = [];
   modalType: string;
 
@@ -106,6 +108,12 @@ export class ArticleComponent implements OnInit {
       descriptionItem = new ArticleParagraph();
       console.log(descriptionItem);
       this.descriptionItems.push(descriptionItem);
+    } else if (type == 'ul') {
+      let articleUl = new ArticleUnorderedList();
+      articleUl.items = [new ArticleListItem()];
+      descriptionItem = articleUl;
+      console.log(descriptionItem);
+      this.descriptionItems.push(descriptionItem);
     } else if (type == 'album') {
       this.albumsService.getAlbums().subscribe(albums => {
         this.albums = albums;
@@ -116,6 +124,13 @@ export class ArticleComponent implements OnInit {
     } else if (type == 'photo') {
       this.openModal(template, 'photo');
     }
+  }
+
+  addUnorderedListItem(index: number) {
+    console.log("addUnorderedListItem, index = " + index);
+    let articleUl = <ArticleUnorderedList> this.descriptionItems[index];
+    articleUl.items.push(new ArticleListItem());
+    console.log(articleUl);
   }
 
   setPhoto(filePath : string) : void {

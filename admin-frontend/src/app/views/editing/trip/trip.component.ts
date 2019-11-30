@@ -41,7 +41,7 @@ export class TripComponent implements OnInit {
   tripAlbums: Article[];
   selectedArticle: number;
   selectedAlbum: number;
-  @ViewChild('f') form: NgForm;
+  @ViewChild('f', {static: true}) form: NgForm;
 
   ngOnInit() {
     this.initializeEmptyArticle();

@@ -38,9 +38,35 @@
 					<input *ngIf="articleDescription.type == 'title'" type="text"
 						name="descriptionTitle_{{index}}" [(ngModel)]="descriptionItems[index].content" class="form-control"
 						[attr.data-index]="index" placeholder="Here the new title !"/>
-					<textarea *ngIf="articleDescription.type == 'paragraph'" type="text"
-						name="descriptionParagraph_{{index}}" [(ngModel)]="descriptionItems[index].content" class="form-control"
+					<textarea *ngIf="articleDescription.type == 'paragraph'" 
+						type="text"
+						name="descriptionParagraph_{{index}}" 
+						[(ngModel)]="descriptionItems[index].content" 
+						class="form-control"
 						[attr.data-index]="index">{{descriptionItems[index].content}}}</textarea>
+					<div *ngIf="articleDescription.type == 'ul'">
+						<p>List : </p>
+						<div *ngFor="let li of descriptionItems[index].items; let listIndex = index">
+							<textarea type="text" 
+								name="descriptionUlItem_{{index}}__{{listIndex}}" 
+								[(ngModel)]="descriptionItems[index].items[listIndex].text"
+								class="form-control"
+								placeholder="Here the new element !"></textarea>
+							<button class="btn btn-secondary" 
+									type="button" 
+									(click)="moveListItemUp(index,listIndex)" 
+									*ngIf="listIndex != 0">&uarr;</button>
+							<button class="btn btn-secondary" 
+									type="button" 
+									(click)="moveListItemDown(index,listIndex)" 
+									*ngIf="(listIndex+1) < descriptionItems[index].items.length ">&darr;</button>
+							<button class="btn btn-secondary" 
+									type="button" 
+									(click)="removeListItem(index,listIndex)">X</button>
+						</div>
+						<button class="btn btn-secondary" type="button" 
+								(click)="addUnorderedListItem(index)">Add item</button>
+					</div>
 					<select *ngIf="articleDescription.type == 'album'"
 						name="descriptionAlbum_{{index}}" class="form-control"
 						[attr.data-index]="index" [(ngModel)]="descriptionItems[index].albumId">
@@ -59,6 +85,7 @@
 		</div>
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('title', template)">Add title</button>
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('paragraph', template)">Add paragraph</button>
+		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('ul', template)">Add unordered list</button>
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('album', template)">Add album</button>
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('photo', template)">Add photo</button>
 	</div>

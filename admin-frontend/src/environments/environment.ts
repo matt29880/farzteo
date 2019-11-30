@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   backendBaseUrl : "http://localhost:8080",
-  siteUrl: "http://test.farzteo.com"
+  siteUrl: "http://integration.farzteo.com"
 };
