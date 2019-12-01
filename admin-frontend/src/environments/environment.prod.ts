@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  backendBaseUrl : "http://greenbox:8081",
-  siteUrl: "http://integration.farzteo.com"
+  backendBaseUrl : "http://greenbox:8082",
+  siteUrl: "http://www.farzteo.com"
 };
