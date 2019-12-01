@@ -175,20 +175,46 @@ export class ArticleComponent implements OnInit {
     if (index <= 0){
       return;
     }
-    let indexUp = index - 1;
-    let item = this.descriptionItems[index];
-    let itemUp = this.descriptionItems[indexUp];
+    const indexUp = index - 1;
+    const item = this.descriptionItems[index];
+    const itemUp = this.descriptionItems[indexUp];
     this.descriptionItems[indexUp] = item;
     this.descriptionItems[index] = itemUp;
   }
   moveDescriptionDown(index: number) {
-    let indexDown = index + 1;
+    const indexDown = index + 1;
     if (indexDown >= this.descriptionItems.length){
       return;
     }
-    let item = this.descriptionItems[index];
-    let itemDown = this.descriptionItems[indexDown];
+    const item = this.descriptionItems[index];
+    const itemDown = this.descriptionItems[indexDown];
     this.descriptionItems[indexDown] = item;
     this.descriptionItems[index] = itemDown;
+  }
+  moveListItemUp(descriptionIndex: number, listItemIndex: number) {
+    if (listItemIndex <= 0){
+      return;
+    }
+    const indexUp = listItemIndex - 1;
+    const items = (<ArticleUnorderedList>this.descriptionItems[descriptionIndex]).items;
+    const item = items[listItemIndex];
+    const itemUp = items[indexUp];
+    items[indexUp] = item;
+    items[listItemIndex] = itemUp;
+  }
+  moveListItemDown(descriptionIndex: number, listItemIndex: number) {
+    const indexDown = listItemIndex + 1;
+    const items = (<ArticleUnorderedList>this.descriptionItems[descriptionIndex]).items;
+    if (descriptionIndex >= items.length){
+      return;
+    }
+    const item = items[listItemIndex];
+    const itemDown = items[indexDown];
+    items[indexDown] = item;
+    items[listItemIndex] = itemDown;
+  }
+  removeListItem(descriptionIndex: number, listItemIndex: number) {
+    const items = (<ArticleUnorderedList>this.descriptionItems[descriptionIndex]).items;
+    items.splice(listItemIndex, 1);
   }
 }
