@@ -18,7 +18,7 @@
 		<button class="btn btn-secondary" type="button" (click)="openModalThumbnail(template)">Update thumbnail</button>
 
 		<p *ngIf="album.thumbnailId != null">
-			<img src="{{environment.siteUrl}}/images/{{album.thumbnailUrl}}" width="250" height="250">
+			<img src="{{environment.siteUrl}}/images/thumbnails/300x300/{{album.thumbnailUrl}}" width="250" height="250">
 		</p>
 	</div>
 	<div class="form-group">
@@ -45,7 +45,7 @@
 <button type="button" class="btn btn-primary" (click)="openModalPhoto(template)">Add photos</button>
 <div class="album row text-center text-lg-left">
   <div class="col-lg-3 col-md-4 col-6" *ngFor="let media of medias">
-				<img src="{{environment.siteUrl}}/images/{{media.url}}" width="250" height="250" 
+				<img src="{{environment.siteUrl}}/images/thumbnails/300x300/{{media.url}}" width="250" height="250" 
 						(click)="unselect(media.id)" class="rounded img-thumbnail cursor-pointer" />
     </div>
 </div>

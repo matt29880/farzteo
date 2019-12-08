@@ -15,12 +15,19 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class ExplorerService {
-  private filesUrl = environment.backendBaseUrl + '/api/files';
+  private filesUrl = environment.siteUrl + '/images';
 
   constructor(private http: HttpClient) {}
 
-  getFiles(folderPath : string): Observable<FileDetailDto[]> {
-    return this.http.get<FileDetailDto[]>(this.filesUrl+ folderPath).pipe(
+  getFolders(folderPath : string): Observable<string[]> {
+    return this.http.get<string[]>(this.filesUrl + '/folder_crawler.php?path=' + folderPath).pipe(
+      tap(files => this.log('fetched folders')),
+      catchError(this.handleError('getFolders', []))
+    );
+  }
+
+  getFiles(folderPath : string): Observable<string[]> {
+    return this.http.get<string[]>(this.filesUrl + '/file_crawler.php?path=' + folderPath).pipe(
       tap(files => this.log('fetched files')),
       catchError(this.handleError('getFiles', []))
     );

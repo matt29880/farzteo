@@ -19,7 +19,8 @@ export class ExplorerComponent implements OnInit {
   constructor(public explorerService: ExplorerService) {
   }
 
-  files: FileDetailDto[];
+  folders: string[];
+  files: string[];
   currentPath: string;
   previousPaths: string[];
   @ViewChild('f') form: NgForm;
@@ -29,12 +30,16 @@ export class ExplorerComponent implements OnInit {
   // private listOfSelectedFiles : FileDetailDto[] = [];
 
   ngOnInit() {
-    this.currentPath = "/";
+    this.currentPath = ".";
     this.previousPaths = [];
-    this.go("/");
+    this.go(".");
   }
 
-  getFiles(folderPath : string): Observable<FileDetailDto[]> {
+  getFolders(folderPath : string): Observable<string[]> {
+    return this.explorerService.getFolders(folderPath);
+  }
+
+  getFiles(folderPath : string): Observable<string[]> {
     return this.explorerService.getFiles(folderPath);
   }
 
@@ -48,8 +53,11 @@ export class ExplorerComponent implements OnInit {
   }
 
   go(folderPath): void {
-    this.getFiles(folderPath).subscribe(files => {
-      this.files = files;
+    this.getFolders(folderPath).subscribe(folders => {
+      this.getFiles(folderPath).subscribe(files => {
+        this.files = files;
+      });
+      this.folders = folders;
       this.currentPath = folderPath;
     });
   }
@@ -65,7 +73,7 @@ export class ExplorerComponent implements OnInit {
       return;
     }*/
     //this.listOfSelectedFiles.push(file);
-    this.selectedFiles.emit(file.path);
+    this.selectedFiles.emit(file);
   }
 
   unselectImage(file):void {
@@ -74,7 +82,7 @@ export class ExplorerComponent implements OnInit {
       return file.path != f.path;
     });*/
   }
-
+/*
   directories() : FileDetailDto[] {
     return this.files.filter(f => f.directory);
   }
@@ -82,7 +90,7 @@ export class ExplorerComponent implements OnInit {
   photos() : FileDetailDto[] {
     return this.files.filter(f => !f.directory);
   }
-
+*/
   /*isSelected(file) : boolean {
     return this.listOfSelectedFiles.filter(function (f) {return f.path == file.path}).length == 1;
   }*/
