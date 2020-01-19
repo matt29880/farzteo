@@ -4,6 +4,7 @@ export class Trip {
   summary: number;
   start: Date;
   end: Date;
+  periodDescription: string;
   thumbnailId: number;
   thumbnailUrl: string;
   online: boolean;
