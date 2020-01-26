@@ -3,9 +3,7 @@ import {ExplorerComponent} from '../explorer/explorer.component';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AlbumsService } from '../albums/albums.service';
-import { CountriesService } from '../countries/countries.service';
 import { MediaService } from '../media/media.service';
-import { ListCountry } from '../countries/listcountry';
 import { Album } from './album';
 import { Media } from '../media/media';
 import { MediaType } from '../media/mediatype';
@@ -13,6 +11,8 @@ import { ListAlbum } from '../albums/listalbum';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import {environment} from '../../../../environments/environment';
+import { AlbumTypesService } from '../albumtypes/albumtypes.service';
+import { ListAlbumType } from '../albumtypes/listalbumtype';
 
 @Component({
   templateUrl: 'album.component.html',
@@ -22,7 +22,7 @@ export class AlbumComponent implements OnInit{
   modalRef: BsModalRef;
   private environment = environment;
   constructor(public albumsService: AlbumsService, 
-    public countriesService: CountriesService, 
+    public albumTypesService: AlbumTypesService,
     public mediaService: MediaService, 
     private route: ActivatedRoute, 
     private router: Router,
@@ -39,7 +39,7 @@ export class AlbumComponent implements OnInit{
   albumId: number;
   album: Album;
   medias: Media[];
-  countries: ListCountry[];
+  albumTypes: ListAlbumType[];
   modalType: MediaType;
 
   @ViewChild('f', {static: true}) form: NgForm;
@@ -49,8 +49,8 @@ export class AlbumComponent implements OnInit{
   ngOnInit() {
     this.medias = [];
     this.initializeEmptyAlbum();
-    this.getCountries().subscribe(countries => {
-      this.countries = countries;
+    this.getAlbumTypes().subscribe(albumTypes => {
+      this.albumTypes = albumTypes;
 
       if (this.route.snapshot.paramMap.get('id') == 'new') {
         return;
@@ -74,8 +74,8 @@ export class AlbumComponent implements OnInit{
     this.album.online = false;
   }
 
-  getCountries(): Observable<ListCountry[]> {
-    return this.countriesService.getCountries();
+  getAlbumTypes(): Observable<ListAlbumType[]> {
+    return this.albumTypesService.getAlbumTypes();
   }
   getMedias(albumId: number): Observable<Media[]> {
     return this.mediaService.getMedias(albumId, MediaType.PHOTO);
@@ -91,8 +91,6 @@ export class AlbumComponent implements OnInit{
   }
 
   onSubmit() {
-    console.log(this.form);
-    this.album.albumTypeId = 1;
     if (this.album.id == null) {
       this.albumsService.insertAlbum(this.album)
                           .subscribe(album => { this.album = album; console.log("Album inserted !");this.router.navigate(['albums'], {relativeTo: this.route.parent}); });
