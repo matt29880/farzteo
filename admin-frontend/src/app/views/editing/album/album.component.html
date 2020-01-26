@@ -22,9 +22,9 @@
 		</p>
 	</div>
 	<div class="form-group">
-		<label for="country" class="col-sm-2 col-form-label">Country:</label> 
-		<select id="country" [(ngModel)]="album.countryId" name="countryId" class="form-control" required>
-		   <option [value]="country.id" *ngFor="let country of countries">{{country.name}}</option>
+		<label for="albumtType" class="col-sm-2 col-form-label">Album Types:</label> 
+		<select id="albumtType" [(ngModel)]="album.albumTypeId" name="albumTypeId" class="form-control" required>
+		   <option [value]="albumType.id" *ngFor="let albumType of albumTypes">{{albumType.name}}</option>
 		 </select>
 	</div>
 	<div class="form-group">
