@@ -1,15 +1,7 @@
 Welcome to Farztev Backend !
 
 <p>
-<button class="btn btn-primary" type="button" (click)="publish(publishType.ONLY_HTML)">Publish only HTML!</button>
-</p>
-
-<p>
-<button class="btn btn-primary" type="button" (click)="publish(publishType.IMAGE)">Publish with image generation without forcing !</button>
-</p>
-
-<p>
-<button class="btn btn-primary" type="button" (click)="publish(publishType.IMAGE_FORCE)">Publish with image generation forcing !</button>
+<button class="btn btn-primary" type="button" (click)="publish()">Publish only HTML!</button>
 </p>
 
 <p *ngIf="published" style="color: green">

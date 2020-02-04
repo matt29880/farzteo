@@ -3,7 +3,6 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { PublishService } from './publish.service';
-import { PublishType } from './publishType';
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -12,11 +11,11 @@ export class DashboardComponent {
 
   constructor(public publishService: PublishService) { }
 
-  publishType = PublishType;
   published : boolean = false;
 
-  publish(publishType : PublishType) {
-    this.publishService.publish(publishType).subscribe(res => {
+  publish() {
+    this.published = false;
+    this.publishService.publish().subscribe(res => {
       console.log("Published !!!");
       this.published = true;
     });
