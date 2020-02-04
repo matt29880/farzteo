@@ -16,6 +16,7 @@ export class DashboardComponent {
   published : boolean = false;
 
   publish(publishType : PublishType) {
+    this.published = false;
     this.publishService.publish(publishType).subscribe(res => {
       console.log("Published !!!");
       this.published = true;

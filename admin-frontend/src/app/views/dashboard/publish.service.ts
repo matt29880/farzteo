@@ -19,9 +19,9 @@ export class PublishService {
 
   constructor(private http: HttpClient) {}
 
-  publish(publishType : PublishType): Observable<Object> {
+  publish(): Observable<Object> {
     console.log("Start publishing");
-    return this.http.get(this.publishUrl + '/' + publishType).pipe(
+    return this.http.get(this.publishUrl).pipe(
       tap(res => res)
     );
   }
