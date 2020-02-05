@@ -171,6 +171,9 @@ export class ArticleComponent implements OnInit {
     this.modalType = modalType;
     this.modalRef = this.modalService.show(template, {class: 'modal-xl'});
   }
+  editDescription(index: number) {
+    this.descriptionItems[index].edit = !this.descriptionItems[index].edit;
+  }
   moveDescriptionUp(index: number) {
     if (index <= 0){
       return;

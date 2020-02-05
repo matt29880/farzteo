@@ -35,16 +35,30 @@
 		<div *ngFor="let articleDescription of descriptionItems; let index = index">
 			<div class="row">
 				<div class="col-sm-10">
-					<input *ngIf="articleDescription.type == 'title'" type="text"
+					<input *ngIf="articleDescription.type == 'title' && articleDescription.edit" type="text"
 						name="descriptionTitle_{{index}}" [(ngModel)]="descriptionItems[index].content" class="form-control"
 						[attr.data-index]="index" placeholder="Here the new title !"/>
-					<textarea *ngIf="articleDescription.type == 'paragraph'" 
+					<h3 *ngIf="articleDescription.type == 'title' && !articleDescription.edit">
+						{{descriptionItems[index].content}}
+					</h3>
+					<textarea *ngIf="articleDescription.type == 'paragraph' && articleDescription.edit"
 						type="text"
 						name="descriptionParagraph_{{index}}" 
 						[(ngModel)]="descriptionItems[index].content" 
 						class="form-control"
 						[attr.data-index]="index">{{descriptionItems[index].content}}}</textarea>
-					<div *ngIf="articleDescription.type == 'ul'">
+					<p *ngIf="articleDescription.type == 'paragraph' && !articleDescription.edit">
+						{{descriptionItems[index].content}}
+					</p>
+					<div *ngIf="articleDescription.type == 'ul' && !articleDescription.edit">
+						<p>List : </p>
+						<ul>
+							<li *ngFor="let li of descriptionItems[index].items">
+								{{li.text}}
+							</li>
+						</ul>
+					</div>
+					<div *ngIf="articleDescription.type == 'ul' && articleDescription.edit">
 						<p>List : </p>
 						<div *ngFor="let li of descriptionItems[index].items; let listIndex = index">
 							<textarea type="text" 
@@ -77,6 +91,7 @@
 					</p>
 				</div>
 				<div class="col-sm-2">
+					<button class="btn btn-secondary" type="button" (click)="editDescription(index)">&#9997;</button>
 					<button class="btn btn-secondary" type="button" (click)="moveDescriptionUp(index)" *ngIf="index != 0">&uarr;</button>
 					<button class="btn btn-secondary" type="button" (click)="moveDescriptionDown(index)" *ngIf="(index+1) < descriptionItems.length ">&darr;</button>
 					<button class="btn btn-secondary" type="button" (click)="removeDescriptionItem(index)">X</button>
