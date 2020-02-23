@@ -45,6 +45,8 @@ export class ArticleComponent implements OnInit {
   @ViewChild('f', {static: true}) form: NgForm;
   albums: ListAlbum[] = [];
   modalType: string;
+  dragIndex: number;
+  hrClass: string;
 
   ngOnInit() {
     this.initializeEmptyArticle();
@@ -175,10 +177,6 @@ export class ArticleComponent implements OnInit {
     this.descriptionItems[index].edit = !this.descriptionItems[index].edit;
   }
 
-  moveDescription(index: number) {
-    this.descriptionItems.splice(index, 1);
-  }
-
   moveDescriptionUp(index: number) {
     if (index <= 0){
       return;
@@ -224,5 +222,35 @@ export class ArticleComponent implements OnInit {
   removeListItem(descriptionIndex: number, listItemIndex: number) {
     const items = (<ArticleUnorderedList>this.descriptionItems[descriptionIndex]).items;
     items.splice(listItemIndex, 1);
+  }
+
+  dragStart(event, index) {
+    console.log("Start drag element " + index, event);
+    this.dragIndex = index;
+    this.hrClass = "drag";
+    //event.target.style.borderColor = "#e4e5e6";
+  }
+
+  hrDrop(event, index) {
+    const from = this.dragIndex;
+    const to = index;
+    console.log("from : " + from + " - to : " + to);
+    const item = this.descriptionItems[from];
+    this.descriptionItems.splice(from, 1);
+    this.descriptionItems.splice(to, 0, item);
+    this.hrClass = "";
+  }
+
+  hrDragOver(event, index) {
+    console.log(event.target);
+    event.target.className = "dragover";
+    event.preventDefault();
+    console.log("after class : " + event.target.class);
+  }
+
+  hrDragLeave(event, index) {
+    event.target.className = "drag";
+    console.log(event);
+    console.log(this);
   }
 }
