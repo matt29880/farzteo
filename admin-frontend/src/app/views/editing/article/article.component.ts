@@ -232,7 +232,6 @@ export class ArticleComponent implements OnInit {
     console.log("Start drag element " + index, event);
     this.dragIndex = index;
     this.hrClass = "drag";
-    //event.target.style.borderColor = "#e4e5e6";
   }
 
   hrDrop(event, index) {
@@ -249,12 +248,9 @@ export class ArticleComponent implements OnInit {
     console.log(event.target);
     event.target.className = "dragover";
     event.preventDefault();
-    console.log("after class : " + event.target.class);
   }
 
   hrDragLeave(event, index) {
     event.target.className = "drag";
-    console.log(event);
-    console.log(this);
   }
 }
