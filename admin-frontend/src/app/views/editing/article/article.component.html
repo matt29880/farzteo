@@ -40,6 +40,10 @@
 						(drop)="hrDrop($event, index)"
 						class="{{hrClass}}"
 						[attr.data-index]="index" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-10">
 					<input *ngIf="articleDescription.type == 'title' && articleDescription.edit" type="text"
 						name="descriptionTitle_{{index}}" 
 						[(ngModel)]="descriptionItems[index].content" 

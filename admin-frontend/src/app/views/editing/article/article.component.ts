@@ -105,22 +105,26 @@ export class ArticleComponent implements OnInit {
     if (type == 'title') {
       descriptionItem = new ArticleTitle();
       console.log(descriptionItem);
+      descriptionItem.edit = true;
       this.descriptionItems.push(descriptionItem);
     } else if (type == 'paragraph') {
       descriptionItem = new ArticleParagraph();
       console.log(descriptionItem);
+      descriptionItem.edit = true;
       this.descriptionItems.push(descriptionItem);
     } else if (type == 'ul') {
       let articleUl = new ArticleUnorderedList();
       articleUl.items = [new ArticleListItem()];
       descriptionItem = articleUl;
       console.log(descriptionItem);
+      descriptionItem.edit = true;
       this.descriptionItems.push(descriptionItem);
     } else if (type == 'album') {
       this.albumsService.getAlbums().subscribe(albums => {
         this.albums = albums;
         descriptionItem = new ArticleAlbum();
         console.log(descriptionItem);
+        descriptionItem.edit = true;
         this.descriptionItems.push(descriptionItem);
       });
     } else if (type == 'photo') {
