@@ -1,3 +1,16 @@
 input.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
 	border: 1px solid red;
 }
+
+hr {
+	border-width: 10px;
+	border-color: #e4e5e6;
+}
+
+.drag {
+	border-color: red;
+}
+
+.dragover {
+	border-color: green;
+}

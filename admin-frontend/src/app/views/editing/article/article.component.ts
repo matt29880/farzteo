@@ -45,6 +45,8 @@ export class ArticleComponent implements OnInit {
   @ViewChild('f', {static: true}) form: NgForm;
   albums: ListAlbum[] = [];
   modalType: string;
+  dragIndex: number;
+  hrClass: string;
 
   ngOnInit() {
     this.initializeEmptyArticle();
@@ -103,22 +105,26 @@ export class ArticleComponent implements OnInit {
     if (type == 'title') {
       descriptionItem = new ArticleTitle();
       console.log(descriptionItem);
+      descriptionItem.edit = true;
       this.descriptionItems.push(descriptionItem);
     } else if (type == 'paragraph') {
       descriptionItem = new ArticleParagraph();
       console.log(descriptionItem);
+      descriptionItem.edit = true;
       this.descriptionItems.push(descriptionItem);
     } else if (type == 'ul') {
       let articleUl = new ArticleUnorderedList();
       articleUl.items = [new ArticleListItem()];
       descriptionItem = articleUl;
       console.log(descriptionItem);
+      descriptionItem.edit = true;
       this.descriptionItems.push(descriptionItem);
     } else if (type == 'album') {
       this.albumsService.getAlbums().subscribe(albums => {
         this.albums = albums;
         descriptionItem = new ArticleAlbum();
         console.log(descriptionItem);
+        descriptionItem.edit = true;
         this.descriptionItems.push(descriptionItem);
       });
     } else if (type == 'photo') {
@@ -171,6 +177,10 @@ export class ArticleComponent implements OnInit {
     this.modalType = modalType;
     this.modalRef = this.modalService.show(template, {class: 'modal-xl'});
   }
+  editDescription(index: number) {
+    this.descriptionItems[index].edit = !this.descriptionItems[index].edit;
+  }
+
   moveDescriptionUp(index: number) {
     if (index <= 0){
       return;
@@ -216,5 +226,31 @@ export class ArticleComponent implements OnInit {
   removeListItem(descriptionIndex: number, listItemIndex: number) {
     const items = (<ArticleUnorderedList>this.descriptionItems[descriptionIndex]).items;
     items.splice(listItemIndex, 1);
+  }
+
+  dragStart(event, index) {
+    console.log("Start drag element " + index, event);
+    this.dragIndex = index;
+    this.hrClass = "drag";
+  }
+
+  hrDrop(event, index) {
+    const from = this.dragIndex;
+    const to = index;
+    console.log("from : " + from + " - to : " + to);
+    const item = this.descriptionItems[from];
+    this.descriptionItems.splice(from, 1);
+    this.descriptionItems.splice(to, 0, item);
+    this.hrClass = "";
+  }
+
+  hrDragOver(event, index) {
+    console.log(event.target);
+    event.target.className = "dragover";
+    event.preventDefault();
+  }
+
+  hrDragLeave(event, index) {
+    event.target.className = "drag";
   }
 }
