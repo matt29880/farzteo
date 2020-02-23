@@ -174,6 +174,11 @@ export class ArticleComponent implements OnInit {
   editDescription(index: number) {
     this.descriptionItems[index].edit = !this.descriptionItems[index].edit;
   }
+
+  moveDescription(index: number) {
+    this.descriptionItems.splice(index, 1);
+  }
+
   moveDescriptionUp(index: number) {
     if (index <= 0){
       return;
