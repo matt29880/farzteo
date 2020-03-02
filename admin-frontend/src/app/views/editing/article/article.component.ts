@@ -21,6 +21,8 @@ import { ArticlePhoto } from './articlePhoto';
 import {environment} from '../../../../environments/environment';
 import { ArticleUnorderedList } from './articleUnorderedList';
 import { ArticleListItem } from './articleListItem';
+import { ArticlePhotoList } from './articlePhotoList';
+import { PhotoItem } from './photoItem';
 
 @Component({
   templateUrl: 'article.component.html',
@@ -41,6 +43,7 @@ export class ArticleComponent implements OnInit {
   articleId: number;
   article: Article;
   descriptionItems: ArticleDescription[];
+  currentPhotoList: ArticlePhotoList;
   countries: ListCountry[];
   @ViewChild('f', {static: true}) form: NgForm;
   albums: ListAlbum[] = [];
@@ -127,6 +130,11 @@ export class ArticleComponent implements OnInit {
         descriptionItem.edit = true;
         this.descriptionItems.push(descriptionItem);
       });
+    } else if (type == 'photo_list') {
+      this.currentPhotoList = new ArticlePhotoList();
+      this.currentPhotoList.photos = [];
+      this.descriptionItems.push(this.currentPhotoList);
+      this.openModal(template, 'photo_list');
     } else if (type == 'photo') {
       this.openModal(template, 'photo');
     }
@@ -140,7 +148,6 @@ export class ArticleComponent implements OnInit {
   }
 
   setPhoto(filePath : string) : void {
-    this.modalRef.hide();
     let media = new Media();
     media.name = "";
     let mediaTypeId = MediaType[MediaType.PHOTO];
@@ -157,9 +164,17 @@ export class ArticleComponent implements OnInit {
         articlePhoto.url = media.url;
         console.log(articlePhoto);
         this.descriptionItems.push(articlePhoto);
+        this.modalRef.hide();
       } else if (this.modalType == 'thumbnail') {
         this.article.thumbnailId = media.id;
         this.article.thumbnailUrl = media.url;
+        this.modalRef.hide();
+      } else if (this.modalType == 'photo_list') {
+        let photoItem = new PhotoItem();
+        photoItem.id = media.id;
+        photoItem.url = media.url;
+        this.currentPhotoList.photos.push(photoItem);
+        console.log(this.currentPhotoList);
       }
 
     });
@@ -215,7 +230,7 @@ export class ArticleComponent implements OnInit {
   moveListItemDown(descriptionIndex: number, listItemIndex: number) {
     const indexDown = listItemIndex + 1;
     const items = (<ArticleUnorderedList>this.descriptionItems[descriptionIndex]).items;
-    if (descriptionIndex >= items.length){
+    if (listItemIndex >= items.length){
       return;
     }
     const item = items[listItemIndex];
@@ -225,6 +240,38 @@ export class ArticleComponent implements OnInit {
   }
   removeListItem(descriptionIndex: number, listItemIndex: number) {
     const items = (<ArticleUnorderedList>this.descriptionItems[descriptionIndex]).items;
+    items.splice(listItemIndex, 1);
+  }
+
+  addPhotoListItem(index: number, template: TemplateRef<any>) {
+    console.log("addPhotoListItem, index = " + index);
+    this.currentPhotoList = <ArticlePhotoList>this.descriptionItems[index];
+    this.openModal(template, 'photo_list');
+  }
+  movePhotoItemUp(descriptionIndex: number, listItemIndex: number) {
+    if (listItemIndex <= 0){
+      return;
+    }
+    const indexUp = listItemIndex - 1;
+    const items = (<ArticlePhotoList>this.descriptionItems[descriptionIndex]).photos;
+    const item = items[listItemIndex];
+    const itemUp = items[indexUp];
+    items[indexUp] = item;
+    items[listItemIndex] = itemUp;
+  }
+  movePhotoItemDown(descriptionIndex: number, listItemIndex: number) {
+    const indexDown = listItemIndex + 1;
+    const items = (<ArticlePhotoList>this.descriptionItems[descriptionIndex]).photos;
+    if (listItemIndex >= items.length){
+      return;
+    }
+    const item = items[listItemIndex];
+    const itemDown = items[indexDown];
+    items[indexDown] = item;
+    items[listItemIndex] = itemDown;
+  }
+  removePhotoItem(descriptionIndex: number, listItemIndex: number) {
+    const items = (<ArticlePhotoList>this.descriptionItems[descriptionIndex]).photos;
     items.splice(listItemIndex, 1);
   }
 
