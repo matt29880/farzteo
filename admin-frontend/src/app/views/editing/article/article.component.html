@@ -108,6 +108,24 @@
 						draggable="true" (dragstart)="dragStart($event, index)">
 						<img src="{{environment.siteUrl}}/images/{{articleDescription.url}}" width="250" height="250">
 					</p>
+					<div *ngIf="articleDescription.type == 'photo_list'">
+						<div *ngFor="let photo of descriptionItems[index].photos; let listIndex = index">
+							<img src="{{environment.siteUrl}}/images/{{photo.url}}" width="250" height="250" />
+							<button class="btn btn-secondary" 
+									type="button" 
+									(click)="movePhotoItemUp(index,listIndex)" 
+									*ngIf="listIndex != 0">&uarr;</button>
+							<button class="btn btn-secondary" 
+									type="button" 
+									(click)="movePhotoItemDown(index,listIndex)" 
+									*ngIf="(listIndex+1) < descriptionItems[index].photos.length ">&darr;</button>
+							<button class="btn btn-secondary" 
+									type="button" 
+									(click)="removePhotoItem(index,listIndex)">X</button>
+						</div>
+						<button class="btn btn-secondary" type="button" 
+								(click)="addPhotoListItem(index, template)">Add item</button>
+					</div>
 				</div>
 				<div class="col-sm-2">
 					<button *ngIf="articleDescription.edit" class="btn btn-secondary" type="button" (click)="editDescription(index)">&#x2714;</button>
@@ -120,6 +138,7 @@
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('ul', template)">Add unordered list</button>
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('album', template)">Add album</button>
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('photo', template)">Add photo</button>
+		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('photo_list', template)">Add list of photos</button>
 	</div>
 	<button class="btn btn-primary" type="submit" [disabled]="!form.valid">Save the article</button>
 	<button class="btn btn-danger" type="button" [disabled]="article.id==null" (click)="deleteArticle()">Delete the article</button>
