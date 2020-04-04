@@ -112,7 +112,8 @@
 						draggable="true" (dragstart)="dragStart($event, index)">
 						<img src="{{environment.siteUrl}}/images/{{articleDescription.url}}" style="width:100%;">
 					</p>
-					<div *ngIf="articleDescription.type == 'photo_list'">
+					<div *ngIf="articleDescription.type == 'photo_list'"
+						draggable="true" (dragstart)="dragStart($event, index)">
 						<div *ngFor="let photo of descriptionItems[index].photos; let listIndex = index">
 							<img src="{{environment.siteUrl}}/images/{{photo.url}}" width="250" height="250" />
 							<button class="btn btn-secondary" 
