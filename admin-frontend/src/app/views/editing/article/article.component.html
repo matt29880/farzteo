@@ -108,6 +108,10 @@
 						draggable="true" (dragstart)="dragStart($event, index)">
 						<img src="{{environment.siteUrl}}/images/{{articleDescription.url}}" width="250" height="250">
 					</p>
+					<p *ngIf="articleDescription.type == 'panorama'"
+						draggable="true" (dragstart)="dragStart($event, index)">
+						<img src="{{environment.siteUrl}}/images/{{articleDescription.url}}" style="width:100%;">
+					</p>
 					<div *ngIf="articleDescription.type == 'photo_list'">
 						<div *ngFor="let photo of descriptionItems[index].photos; let listIndex = index">
 							<img src="{{environment.siteUrl}}/images/{{photo.url}}" width="250" height="250" />
@@ -139,6 +143,7 @@
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('album', template)">Add album</button>
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('photo', template)">Add photo</button>
 		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('photo_list', template)">Add list of photos</button>
+		<button class="btn btn-secondary" type="button" (click)="addDescriptionItem('panorama', template)">Add pano</button>
 	</div>
 	<button class="btn btn-primary" type="submit" [disabled]="!form.valid">Save the article</button>
 	<button class="btn btn-danger" type="button" [disabled]="article.id==null" (click)="deleteArticle()">Delete the article</button>

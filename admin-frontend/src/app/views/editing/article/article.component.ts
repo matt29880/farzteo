@@ -23,6 +23,7 @@ import { ArticleUnorderedList } from './articleUnorderedList';
 import { ArticleListItem } from './articleListItem';
 import { ArticlePhotoList } from './articlePhotoList';
 import { PhotoItem } from './photoItem';
+import { ArticlePanorama } from './articlePanorama';
 
 @Component({
   templateUrl: 'article.component.html',
@@ -137,6 +138,8 @@ export class ArticleComponent implements OnInit {
       this.openModal(template, 'photo_list');
     } else if (type == 'photo') {
       this.openModal(template, 'photo');
+    } else if (type == 'panorama') {
+      this.openModal(template, 'panorama');
     }
   }
 
@@ -164,6 +167,13 @@ export class ArticleComponent implements OnInit {
         articlePhoto.url = media.url;
         console.log(articlePhoto);
         this.descriptionItems.push(articlePhoto);
+        this.modalRef.hide();
+      } else if (this.modalType == 'panorama') {
+        let articlePanorama = new ArticlePanorama();
+        articlePanorama.id = media.id;
+        articlePanorama.url = media.url;
+        console.log(articlePanorama);
+        this.descriptionItems.push(articlePanorama);
         this.modalRef.hide();
       } else if (this.modalType == 'thumbnail') {
         this.article.thumbnailId = media.id;
